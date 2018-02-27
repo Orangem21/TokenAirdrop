@@ -108,7 +108,9 @@ var transfer = function(erc20TokenContractAddress , airDropOriginalAddress ,aird
                           //  console.log('entrance'+ JSON.stringify(confirmationNumber)+'--------------'+ JSON.stringify(receipt));
                         }).on('error',function(error){
                             console.log(error);
-                            console.log('Failure to send a signature transaction：'+airdropDestinationAddresses+airdropAmounts);
+                            //for(i in airdropDestinationAddresses){
+                                console.log("Failure to send a signature transaction："+airdropDestinationAddresses+" ---- "+(airdropAmounts));
+                            //}
                         });
                     });
             });
