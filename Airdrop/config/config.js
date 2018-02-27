@@ -7,7 +7,7 @@ require('solc');
 require('ethjs-account');
 require('node-xlsx');
 
-console.log('require librarys');
+//console.log('require librarys');
 
 //以太坊main网络参数
 // module.exports = {
