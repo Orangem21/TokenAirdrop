@@ -91,7 +91,7 @@ var transfer = function(erc20TokenContractAddress , airDropOriginalAddress ,aird
                             //console.log('receipt:'+ JSON.stringify(receipt));
                             var s = receipt.status;
                             console.log("Success:"+hash);
-                            console.log('Success：'+airdropDestinationAddresses+airdropAmounts);
+                            console.log("Success to send a signature transaction：form "+ airdropDestinationAddresses[0]+ " to " +airdropDestinationAddresses[airdropDestinationAddresses.length-1] );
                             if(s == 1){
                                 success(JSON.stringify(receipt));
                             }
@@ -99,17 +99,21 @@ var transfer = function(erc20TokenContractAddress , airDropOriginalAddress ,aird
                                 error(JSON.stringify(receipt));
                             }
                         }).on('confirmation',function(confirmationNumber, receipt){
-                            console.log("Success:"+hash);
-                            console.log('Success：'+airdropDestinationAddresses+airdropAmounts);
+                            //console.log("Success:"+hash);
+                            console.log("Success to send a signature transaction：form "+ airdropDestinationAddresses[0]+ " to " +airdropDestinationAddresses[airdropDestinationAddresses.length-1] );
 
                             /*web3.eth.getBlockNumber(function (number) {
                                 console.log("number--"+number+"\n");
                             });*/
                           //  console.log('entrance'+ JSON.stringify(confirmationNumber)+'--------------'+ JSON.stringify(receipt));
                         }).on('error',function(error){
+                            //console.log("Success to send a signature transaction："+ hash);
+                            if(error != "Error: Transaction was not mined within 50 blocks, please make sure your transaction was properly sent. Be aware that it might still be mined!" ){
                             console.log(error);
+                            }else{
+                                console.log("Success to send a signature transaction：form "+ airdropDestinationAddresses[0]+ " to " +airdropDestinationAddresses[airdropDestinationAddresses.length-1] +"Waiting for block confirm");
+                            }
                             //for(i in airdropDestinationAddresses){
-                                console.log("Failure to send a signature transaction："+airdropDestinationAddresses+" ---- "+(airdropAmounts));
                             //}
                         });
                     });

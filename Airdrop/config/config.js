@@ -37,10 +37,11 @@ require('node-xlsx');
 //以太坊Rinkeby网络参数
 module.exports = {
     transaction:{
-        url:'https://ropsten.infura.io/VsN2lc1BcXrKQPaFXOjn',
-        gasPrice:20000000000,
+        url:'https://ropsten.infura.io/VsN2lc1BcXrKQPaFXOjn',       //接口
+        gasPrice:20000000000, 
         gasLimit:4000000,
-        decimals:6
+        decimals:6,//token decimal
+        number:50 //一次调用给多少个账户发币
     },
     airdropModule: {
         userPrivateKey:'',                                     //send transaction
