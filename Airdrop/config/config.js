@@ -37,16 +37,17 @@ console.log('require librarys');
 //以太坊Rinkeby网络参数
 module.exports = {
     transaction:{
-        url:'https://rinkeby.infura.io/0x585a40461ff12c6734e8549a7fb527120d4b8d0d',
-        gasPrice:2000000000,
-        gasLimit:6000000
+        url:'https://ropsten.infura.io/VsN2lc1BcXrKQPaFXOjn',
+        gasPrice:20000000000,
+        gasLimit:4000000,
+        decimals:6
     },
     airdropModule: {
         userPrivateKey:'',                                     //send transaction
-        ercAirDropAmount:'1',       //amount of airdrop
-        airContractAddress:'0xceCf9E39E17330fF5e802895aaa5Bd02614313Bd',
-        tokenContractAddress:'0xc0eE6Df91C455c64928F1F179C2B84eb61E58870',                               //erc20 token contract address
-        transferFromAddress:'0x585a40461FF12C6734E8549A7FB527120D4b8d0D'
+        ercAirDropAmount:'10000000',       //amount of airdrop
+        airContractAddress:'0x6abcf2af2dddfbe5f827955e7d6a2d2398617a09',
+        tokenContractAddress:'0x7EA71b1B2c3CeE2C18C8C1118f021130069Dc890',                               //erc20 token contract address
+        transferFromAddress:'0x677858d0bd71a9300a19e436ae3b5af6d1807cc1'
     },
     approveModule:{
         userPrivateKey : '',

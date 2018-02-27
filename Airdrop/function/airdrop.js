@@ -3,7 +3,7 @@
  */
 
 const Config = require('./../config/config.js');
-
+var sleep = require('sleep');
 Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.HttpProvider(Config.transaction.url));
 
@@ -16,7 +16,7 @@ const solc = require('solc');
 // compile the code
 const input = fs.readFileSync('./contract/airdrop.sol');
 const output = solc.compile(input.toString());
-const abi = JSON.parse(output.contracts[':TokenAirDrop'].interface);
+const abi = JSON.parse(output.contracts[':Airdropper'].interface);
 
 //------------------------------ init property ----------------------------
 
@@ -28,18 +28,20 @@ const userPrivateKey = Config.airdropModule.userPrivateKey;
 const tokenContractAddress = Config.airdropModule.tokenContractAddress;
 //transfer from address
 const transferFromAddress = Config.airdropModule.transferFromAddress;
+//Decimals
+const decimals = Config.transaction.decimals;
 
 
 //-------------------------------- contract --------------------------------
 
 var token = new web3.eth.Contract(abi, airContractAddress);
 
-token.events.TokenDrop(function (result) {
-    //console.log("\n\n----------------------didWatchTokenDropEvent----------------------\n\n");
-}).on('data', function(event){
-    //console.log("\n\n----------------------didReceiveData----------------------\n\n");
-    console.log(event.returnValues);
-}).on('error',console.error);
+// token.events.TokenDrop(function (result) {
+//     //console.log("\n\n----------------------didWatchTokenDropEvent----------------------\n\n");
+// }).on('data', function(event){
+//     //console.log("\n\n----------------------didReceiveData----------------------\n\n");
+//     console.log(event.returnValues);
+// }).on('error',console.error);
 
 
 
@@ -49,12 +51,17 @@ var transfer = function(erc20TokenContractAddress , airDropOriginalAddress ,aird
     var t = {
         to: airContractAddress,
         value: '0x00',
-        data: token.methods.airDrop(erc20TokenContractAddress,
-            airDropOriginalAddress,
+        data: token.methods.multisend(erc20TokenContractAddress,
+//            airDropOriginalAddress,
             airdropDestinationAddresses,
             airdropAmounts).encodeABI()
     };
+// console.log(t);
     //get current gasPrice, you can use default gasPrice or custom gasPrice!
+//console.log(token.methods.airDrop(erc20TokenContractAddress,
+//            airDropOriginalAddress,
+//            airdropDestinationAddresses,
+//            airdropAmounts))
     web3.eth.getGasPrice().then(function(p) {
         //t.gasPrice = web3.utils.toHex(p);
         t.gasPrice = web3.utils.toHex(Config.transaction.gasPrice);
@@ -83,7 +90,8 @@ var transfer = function(erc20TokenContractAddress , airDropOriginalAddress ,aird
                         }).on('receipt',function(receipt){
                             //console.log('receipt:'+ JSON.stringify(receipt));
                             var s = receipt.status;
-                            console.log("resultStatus:"+s);
+                            console.log("Success:"+hash);
+                            console.log('Success：'+airdropDestinationAddresses+airdropAmounts);
                             if(s == 1){
                                 success(JSON.stringify(receipt));
                             }
@@ -91,13 +99,16 @@ var transfer = function(erc20TokenContractAddress , airDropOriginalAddress ,aird
                                 error(JSON.stringify(receipt));
                             }
                         }).on('confirmation',function(confirmationNumber, receipt){
+                            console.log("Success:"+hash);
+                            console.log('Success：'+airdropDestinationAddresses+airdropAmounts);
 
                             /*web3.eth.getBlockNumber(function (number) {
                                 console.log("number--"+number+"\n");
                             });*/
                           //  console.log('entrance'+ JSON.stringify(confirmationNumber)+'--------------'+ JSON.stringify(receipt));
                         }).on('error',function(error){
-                            console.log('Failure to send a signature transaction：'+error);
+                            console.log(error);
+                            console.log('Failure to send a signature transaction：'+airdropDestinationAddresses+airdropAmounts);
                         });
                     });
             });
@@ -112,18 +123,17 @@ var privateKeyToAddress = function(privateKey,result) {
 };
 
 var transferWithAddressAndAmounts = function(addresses,amounts) {
-
     var airdropAmounts = [];
     for (var i in amounts){
 
         var amount = amounts[i].toString();
-        var obj = web3.utils.toWei(amount, 'ether');
+        var obj = parseInt(amount) * 10**decimals;
+        //console.log(obj + amount +parseInt(amount) +decimals);
         airdropAmounts.push(obj);
     }
 
 //Get the private key corresponding account and initiate the transfer
     privateKeyToAddress(userPrivateKey,function (address) {
-
         transfer(tokenContractAddress,transferFromAddress,addresses,airdropAmounts,address,userPrivateKey,function (success) {
 
             console.log("success:"+success);
