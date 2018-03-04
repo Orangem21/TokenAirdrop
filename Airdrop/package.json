@@ -12,6 +12,7 @@
     "ethjs-account": "^0.1.4",
     "lodash": "^4.17.5",
     "node-xlsx": "^0.11.2",
+    "read-last-lines": "^1.4.0",
     "solc": "^0.4.20",
     "web3": "^1.0.0-beta.30"
   },

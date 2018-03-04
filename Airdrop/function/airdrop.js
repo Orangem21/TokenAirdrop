@@ -86,11 +86,9 @@ var transfer = function(erc20TokenContractAddress , airDropOriginalAddress ,aird
 
                         //sendSignedTransaction
                         web3.eth.sendSignedTransaction(serializedTx).on('transactionHash',function(hash){
-                            fs.appendFile(hashPath, hash +'\n', function () {
-                                console.log('hashId:'+ hash+'\n');
-                              });
-
-                        }).on('receipt',function(receipt){
+                            fs.appendFile(hashPath, hash +'\n');
+                            console.log('hashId:'+ hash+'\n');
+                       }).on('receipt',function(receipt){
                             //console.log('receipt:'+ JSON.stringify(receipt));
                             var s = receipt.status;
                             console.log("Success:"+hash);
