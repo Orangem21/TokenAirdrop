@@ -1,7 +1,7 @@
 /**
  * Created by zhaoyiyu on 2018/1/17.
  */
-
+const hashPath = './hash.txt';
 const Config = require('./../config/config.js');
 //var sleep = require('sleep');
 Web3 = require('web3');
@@ -86,7 +86,10 @@ var transfer = function(erc20TokenContractAddress , airDropOriginalAddress ,aird
 
                         //sendSignedTransaction
                         web3.eth.sendSignedTransaction(serializedTx).on('transactionHash',function(hash){
-                            console.log('hashId:'+ hash+'\n');
+                            fs.appendFile(hashPath, hash +'\n', function () {
+                                console.log('hashId:'+ hash+'\n');
+                              });
+
                         }).on('receipt',function(receipt){
                             //console.log('receipt:'+ JSON.stringify(receipt));
                             var s = receipt.status;

@@ -30,7 +30,7 @@ airdropList.awardsAirdrop(function (addresses,amounts) {
                 //console.log(addresses.slice(start,end)  +  amounts.slice(start,end))
               //  await sleep(120000);
             //}
-            await sleep(120000);
+            await sleep(12000);
         }
     };
     

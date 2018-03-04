@@ -2,9 +2,9 @@
  * Created by zhaoyiyu on 2018/2/5.
  */
 
-const totalAirdropListPath = './airdrop_list/itc_airdrop_total.xlsx';
-const awardsAirdropListPath = './airdrop_list/itc_airdrop_total.xlsx';
-const errorAirdropListPath = './airdrop_list/errorAddress.xlsx';
+const totalAirdropListPath = './airdrop_list/ecot2.xlsx';
+const awardsAirdropListPath = './airdrop_list/ecot2.xlsx';
+const errorAirdropListPath = './airdrop_list/ecot2.xlsx';
 
 //address 在excel中的序号
 const addressIndex = 0;
